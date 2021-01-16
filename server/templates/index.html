@@ -1,0 +1,23 @@
+<html>
+    <script>
+        function rank() {
+            let obj = document.querySelector('#upload')
+
+            if (obj.files && obj.files.length > 0) {
+                const formData = new FormData();
+
+                for (let i = 0; i < obj.files.length; i ++) {
+                    formData.append(obj.files[i].name, obj.files[i])
+                }
+
+                fetch('/rank', {method: "POST", body: formData})
+                .then(function(res) { return res.json(); })
+                .then(function(data) { console.log( JSON.stringify( data ) ) })
+            }
+        }
+    </script>
+    <body>
+        <input id='upload' type='file' multiple>
+        <input id='submit' type='button' value='rank' onclick="rank()">
+    </body>
+</html>
