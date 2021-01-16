@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 
 class Ranker:
     def __init__(self):
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.device = 'cpu'
 
         self.model = torchvision.models.resnet50()
         self.model.fc = torch.nn.Linear(in_features=2048, out_features=1)
