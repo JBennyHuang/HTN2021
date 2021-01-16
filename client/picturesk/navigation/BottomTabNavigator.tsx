@@ -1,9 +1,9 @@
 import { Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
-import {Image} from 'react-native'
+import {View, Image, TouchableOpacity, StyleSheet} from 'react-native'
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -12,7 +12,7 @@ import TabCameraScreen from '../screens/TabCameraScreen';
 import TabProfileScreen from '../screens/TabProfileScreen';
 import { BottomTabParamList, TabExploreParamList, TabCameraParamList, TabProfileParamList } from '../types';
 
-const BottomTab = createBottomTabNavigator<BottomTabParamList>();
+const BottomTab = createMaterialBottomTabNavigator<BottomTabParamList>();
 
 export default function BottomTabNavigator() {
   const colorScheme = useColorScheme();
@@ -20,14 +20,15 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Explore"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint}}>
-        <BottomTab.Screen
+      shifting={true}
+      >
+      <BottomTab.Screen
         name="Explore"
-        component={TabExploreNavigator}
+        component={TabExploreNavigator}  
         options={{
-          tabBarLabel:() => {return null},
-          tabBarIcon: ({ focused, color, size }) => {
-            return <Image style={{width: size, height: size}}source={require('../assets/images/profile.png')} /> 
+          tabBarColor:"#C84771",
+          tabBarIcon: ({ focused, color }) => {
+            return <Image style={{width: 20, height: 20}}source={require('../assets/images/multiple.png')} /> 
           }
         }}
       />
@@ -35,9 +36,10 @@ export default function BottomTabNavigator() {
         name="Camera"
         component={TabCameraNavigator}
         options={{
-          tabBarLabel:() => {return null},
-          tabBarIcon: ({ focused, color, size }) => {
-            return <Image style={{width: size, height: size}}source={require('../assets/images/camera.png')} /> 
+          tabBarIcon: ({ focused, color }) => {
+            return (
+              <Image style={{width: 20, height: 20}}source={require('../assets/images/camera.png')} /> 
+              )
           }
         }}
       />
@@ -45,8 +47,12 @@ export default function BottomTabNavigator() {
         name="Profile"
         component={TabProfileNavigator}
         options={{
-          tabBarLabel:() => {return null},
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarColor:"#4D6CFA",
+          tabBarIcon: ({ focused, color }) => {
+            return (
+              <Image style={{width: 20, height: 20}}source={require('../assets/images/profile.png')} /> 
+              )
+          }
         }}
       />
     </BottomTab.Navigator>
@@ -56,7 +62,7 @@ export default function BottomTabNavigator() {
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function TabBarIcon(props: { name: string; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <Ionicons size={20} style={{ marginBottom: -3 }} {...props} />;
 }
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
