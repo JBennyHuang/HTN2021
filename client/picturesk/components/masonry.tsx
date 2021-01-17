@@ -23,7 +23,7 @@ export default function MasonryScreen({ path }: { path: string }) {
         // {image: require('./4617822.jpeg'), id: 10},
         // {image: require('./5990678.jpeg'), id: 11},
         // {image: require('./5990678.jpeg'), id: 12},
-        {uri: "file:///storage/emulated/0/DCIM/Camera/IMG_20180811_182608.jpg", id: 1}
+        // {uri: "file:///storage/emulated/0/DCIM/Camera/IMG_20180811_182608.jpg", id: 1}
     ])
 
     React.useEffect(() => {
@@ -36,7 +36,7 @@ export default function MasonryScreen({ path }: { path: string }) {
                 i++
             }
             setImages(images.concat(objs))
-            console.log(images)
+            // console.log(images)
         })();
       }, [focus]);
 
@@ -48,11 +48,11 @@ export default function MasonryScreen({ path }: { path: string }) {
 
   return (
     <FlatList
+    style={{margin: 5}}
     scrollEnabled={true}
     numColumns={2}
     columnWrapperStyle={styles.row}
     removeClippedSubviews={true}
-    style={{margin: 5}}
       data={images}
       keyExtractor={(item) => `row-${item.id}`}
       renderItem={({item, index}) => (
@@ -60,14 +60,13 @@ export default function MasonryScreen({ path }: { path: string }) {
         <Image source={{uri: item.uri}} 
         key={index}
         style={{
-          width:150,
-          height:200,
+          width:175,
+          height:225,
           resizeMode:'contain',
-          margin:8
         }}
         
       />
-        </View>
+      </View>
 
     )}
     />
@@ -77,11 +76,10 @@ export default function MasonryScreen({ path }: { path: string }) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'white',
+      backgroundColor: 'transparent',
     },
     image: {
-      borderRadius: 0,
-      backgroundColor: "white",
+      backgroundColor: "transparent",
     },
     row: {
         flex: 1,

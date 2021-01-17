@@ -3,14 +3,17 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
+import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Camera } from 'expo-camera';
-import * as MediaLibrary from 'expo-media-library';
 
 
 export default function TabCameraScreen() {
   const [hasPermission, setHasPermission] = React.useState(null);
+  const [hasPermissionML, setHasPermissionML] = React.useState(null); 
   const [type, setType] = React.useState(Camera.Constants.Type.back);
   const [focus, setFocus] = React.useState(false);
   const [cam, setCam] = React.useState(null)
@@ -20,6 +23,13 @@ export default function TabCameraScreen() {
       const { status } = await Camera.requestPermissionsAsync();
       MediaLibrary.requestPermissionsAsync()
       setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      setHasPermissionML(status === 'granted');
     })();
   }, []);
 
@@ -38,10 +48,17 @@ export default function TabCameraScreen() {
   const takePicture = () => {
     if (cam) {
       cam.takePictureAsync({
-        onPictureSaved: async (photo) => {
-          console.log(photo);
+        onPictureSaved: (photo) => {
+          MediaLibrary.saveToLibraryAsync(photo.uri);
+          // FileSystem.readAsStringAsync(photo.uri, {'encoding': FileSystem.EncodingType.Base64}).then((file) => {
+          //   const formData = new FormData();
 
-          await MediaLibrary.saveToLibraryAsync(photo.uri);
+          //   formData.append(photo.uri, file)
+            
+          //   fetch('http://35.238.1.235:5000/rank', {method: "POST", body: formData})
+          //   .then(function(res) { return res.json(); })
+          //   .then(function(data) { console.log( JSON.stringify( data ) ) })
+          // })
         }
       });
     }
@@ -102,7 +119,7 @@ export default function TabCameraScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   title: {
     fontSize: 20,
