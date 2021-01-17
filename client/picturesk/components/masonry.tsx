@@ -25,6 +25,7 @@ export default function MasonryScreen({ path }: { path: string }) {
 
   return (
     <FlatList
+    style={{margin: 5}}
     scrollEnabled={true}
     numColumns={2}
     columnWrapperStyle={styles.row}
@@ -41,7 +42,7 @@ export default function MasonryScreen({ path }: { path: string }) {
         }}
         
       />
-        </View>
+      </View>
 
     )}
     />

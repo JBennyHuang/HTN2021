@@ -6,6 +6,7 @@ import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icon
 import * as RNFS from 'react-native-fs';
 import * as FileSystem from 'expo-file-system';
 import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
@@ -14,6 +15,7 @@ import { Camera } from 'expo-camera';
 
 export default function TabCameraScreen() {
   const [hasPermission, setHasPermission] = React.useState(null);
+  const [hasPermissionML, setHasPermissionML] = React.useState(null); 
   const [type, setType] = React.useState(Camera.Constants.Type.back);
   const [focus, setFocus] = React.useState(false);
   const [cam, setCam] = React.useState(null)
@@ -22,6 +24,13 @@ export default function TabCameraScreen() {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
       setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      setHasPermissionML(status === 'granted');
     })();
   }, []);
 
@@ -41,15 +50,16 @@ export default function TabCameraScreen() {
     if (cam) {
       cam.takePictureAsync({
         onPictureSaved: (photo) => {
-          FileSystem.readAsStringAsync(photo.uri, {'encoding': FileSystem.EncodingType.Base64}).then((file) => {
-            const formData = new FormData();
+          MediaLibrary.saveToLibraryAsync(photo.uri);
+          // FileSystem.readAsStringAsync(photo.uri, {'encoding': FileSystem.EncodingType.Base64}).then((file) => {
+          //   const formData = new FormData();
 
-            formData.append(photo.uri, file)
+          //   formData.append(photo.uri, file)
             
-            fetch('http://35.238.1.235:5000/rank', {method: "POST", body: formData})
-            .then(function(res) { return res.json(); })
-            .then(function(data) { console.log( JSON.stringify( data ) ) })
-          })
+          //   fetch('http://35.238.1.235:5000/rank', {method: "POST", body: formData})
+          //   .then(function(res) { return res.json(); })
+          //   .then(function(data) { console.log( JSON.stringify( data ) ) })
+          // })
         }
       });
     }
