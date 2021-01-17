@@ -18,13 +18,9 @@
     "@react-navigation/material-bottom-tabs": "^5.3.11",
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
-<<<<<<< HEAD
-    "expo": "^40.0.0",
-=======
     "@types/masonry-layout": "^4.2.2",
     "deprecated-react-native-listview": "^0.0.6",
     "expo": "~40.0.0",
->>>>>>> b105aabdd64357bf71da29cdd8049a1205e5ac42
     "expo-asset": "~8.2.1",
     "expo-camera": "~9.1.0",
     "expo-constants": "~9.3.0",
