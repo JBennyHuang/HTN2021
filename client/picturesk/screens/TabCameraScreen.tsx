@@ -6,6 +6,7 @@ import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icon
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Camera } from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
 
 
 export default function TabCameraScreen() {
@@ -17,6 +18,7 @@ export default function TabCameraScreen() {
   React.useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
+      MediaLibrary.requestPermissionsAsync()
       setHasPermission(status === 'granted');
     })();
   }, []);
@@ -36,8 +38,10 @@ export default function TabCameraScreen() {
   const takePicture = () => {
     if (cam) {
       cam.takePictureAsync({
-        onPictureSaved: (photo) => {
+        onPictureSaved: async (photo) => {
           console.log(photo);
+
+          await MediaLibrary.saveToLibraryAsync(photo.uri);
         }
       });
     }
