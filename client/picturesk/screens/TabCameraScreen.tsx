@@ -3,6 +3,10 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
+import * as RNFS from 'react-native-fs';
+import * as FileSystem from 'expo-file-system';
+import * as ImagePicker from 'expo-image-picker';
+
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import { Camera } from 'expo-camera';
@@ -37,7 +41,15 @@ export default function TabCameraScreen() {
     if (cam) {
       cam.takePictureAsync({
         onPictureSaved: (photo) => {
-          console.log(photo);
+          FileSystem.readAsStringAsync(photo.uri, {'encoding': FileSystem.EncodingType.Base64}).then((file) => {
+            const formData = new FormData();
+
+            formData.append(photo.uri, file)
+            
+            fetch('http://35.238.1.235:5000/rank', {method: "POST", body: formData})
+            .then(function(res) { return res.json(); })
+            .then(function(data) { console.log( JSON.stringify( data ) ) })
+          })
         }
       });
     }
@@ -98,7 +110,7 @@ export default function TabCameraScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   title: {
     fontSize: 20,

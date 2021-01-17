@@ -28,7 +28,6 @@ export default function MasonryScreen({ path }: { path: string }) {
     scrollEnabled={true}
     numColumns={2}
     columnWrapperStyle={styles.row}
-    style={{margin: 5}}
       data={images}
       keyExtractor={(item) => `row-${item.id}`}
       renderItem={({item, index}) => (
@@ -36,10 +35,9 @@ export default function MasonryScreen({ path }: { path: string }) {
         <Image source={item.image} 
         key={index}
         style={{
-          width:150,
-          height:200,
+          width:175,
+          height:225,
           resizeMode:'contain',
-          margin:8
         }}
         
       />
@@ -53,11 +51,10 @@ export default function MasonryScreen({ path }: { path: string }) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'white',
+      backgroundColor: 'transparent',
     },
     image: {
-      borderRadius: 0,
-      backgroundColor: "white",
+      backgroundColor: "transparent",
     },
     row: {
         flex: 1,
