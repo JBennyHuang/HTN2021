@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -12,6 +12,7 @@ import { Camera } from 'expo-camera';
 
 
 export default function TabCameraScreen() {
+  const [uris, setUris] = React.useState([]);
   const [hasPermission, setHasPermission] = React.useState(null);
   const [hasPermissionML, setHasPermissionML] = React.useState(null); 
   const [type, setType] = React.useState(Camera.Constants.Type.back);
@@ -35,7 +36,9 @@ export default function TabCameraScreen() {
 
   useFocusEffect(() => {
     setFocus(true);
-    return () => setFocus(false)
+    return () => {
+      setFocus(false)
+    }
   })
 
   if (hasPermission === null) {
@@ -45,11 +48,33 @@ export default function TabCameraScreen() {
     return <Text>No access to camera</Text>;
   }
 
+  const makeGallery = async () => {
+    if (hasPermissionML) {  
+      let assets : MediaLibrary.Asset[] = []
+
+      for(const uri of uris) {
+        let asset = await MediaLibrary.createAssetAsync(uri);
+        assets.push(asset);
+      }
+
+      if (assets.length > 0) {
+        let album = await MediaLibrary.createAlbumAsync(Date.now().toString(), assets[0])
+        if (assets.length > 1) {
+          MediaLibrary.addAssetsToAlbumAsync(assets.slice(1), album);
+        }
+      }
+    }
+    setUris([])
+  }
+
   const takePicture = () => {
     if (cam) {
       cam.takePictureAsync({
         onPictureSaved: (photo) => {
-          MediaLibrary.saveToLibraryAsync(photo.uri);
+          // if (hasPermissionML) {
+          //   MediaLibrary.saveToLibraryAsync(photo.uri);
+          // }
+          setUris(uris.concat([photo.uri]))
           // FileSystem.readAsStringAsync(photo.uri, {'encoding': FileSystem.EncodingType.Base64}).then((file) => {
           //   const formData = new FormData();
 
@@ -73,6 +98,9 @@ export default function TabCameraScreen() {
               alignSelf: 'flex-end',
               alignItems: 'center',
               backgroundColor: 'transparent',                  
+            }}
+            onPress={() => {
+              makeGallery();
             }}>
             <FontAwesome
                 name="photo"
@@ -124,11 +152,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
   },
   camera: {
     flex: 1,
