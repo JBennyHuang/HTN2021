@@ -18,7 +18,13 @@
     "@react-navigation/material-bottom-tabs": "^5.3.11",
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
+<<<<<<< HEAD
     "expo": "^40.0.0",
+=======
+    "@types/masonry-layout": "^4.2.2",
+    "deprecated-react-native-listview": "^0.0.6",
+    "expo": "~40.0.0",
+>>>>>>> b105aabdd64357bf71da29cdd8049a1205e5ac42
     "expo-asset": "~8.2.1",
     "expo-camera": "~9.1.0",
     "expo-constants": "~9.3.0",
@@ -32,6 +38,10 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
     "react-native-cli": "^2.0.1",
     "react-native-gesture-handler": "~1.8.0",
+    "react-native-infinite-masonry": "^0.0.3",
+    "react-native-masonry": "^0.5.0-alpha.5",
+    "react-native-masonry-layout": "^1.0.6",
+    "react-native-masonry-list": "^2.16.1",
     "react-native-paper": "^4.7.0",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.0",

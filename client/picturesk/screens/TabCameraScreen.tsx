@@ -98,7 +98,15 @@ export default function TabCameraScreen() {
 
 const styles = StyleSheet.create({
   container: {
+<<<<<<< HEAD
     flex: 1
+=======
+    flex: 1,
+    backgroundColor: "white",
+
+    alignItems: 'center',
+    justifyContent: 'center',
+>>>>>>> b105aabdd64357bf71da29cdd8049a1205e5ac42
   },
   title: {
     fontSize: 20,
